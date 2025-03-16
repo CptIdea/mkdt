@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	// Флаги
+	// Flags
 	dryRun := flag.Bool("dry-run", false, "Preview changes without execution")
 	debug := flag.Bool("debug", false, "Show parsing details")
 	readClipboard := flag.Bool("c", false, "Read from clipboard")
@@ -39,13 +39,13 @@ func main() {
 
 	normalized := normalizer.Normalize(input)
 
-	// Парсинг
+	// Parsing
 	tree, err := parser.Parse(normalized)
 	if err != nil {
 		cli.ErrorExit("Parsing failed: %v", err)
 	}
 
-	// Генерация
+	// Generation
 	opts := generator.Options{
 		DryRun: *dryRun,
 		Debug:  *debug,
@@ -62,7 +62,7 @@ func readInput(filePath string) (string, error) {
 		return string(data), err
 	}
 
-	// Чтение из stdin
+	// Read from stdin
 	data, err := io.ReadAll(os.Stdin)
 	if err != nil {
 		return "", fmt.Errorf("reading stdin: %w", err)
