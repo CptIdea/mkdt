@@ -53,7 +53,7 @@ src/
 
 #### From clipboard (*requires `xclip`/`pbpaste`*):
 ```shell
-mkdt --clip
+mkdt -c
 ```
 
 #### From a file:
