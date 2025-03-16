@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	decorRegex   = regexp.MustCompile(`^[├└│\-─|` + "`" + `*.\+\[\]\{\}\(\)<> ]+`)
+	decorRegex   = regexp.MustCompile("^(?:[├└ │─|`*+\\]\\}\\)>-]+)")
 	commentRegex = regexp.MustCompile(`\s*#.*`)
 )
 

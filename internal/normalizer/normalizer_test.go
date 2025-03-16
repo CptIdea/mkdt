@@ -75,6 +75,11 @@ func TestNormalize(t *testing.T) {
 			input:    "root\n|-- file",
 			expected: []string{"root/", "\tfile"},
 		},
+		{
+			name:     "Hidden file",
+			input:    "root\n\tfile\n\t.hidden",
+			expected: []string{"root/", "\tfile", "\t.hidden"},
+		},
 	}
 
 	for _, tt := range tests {
