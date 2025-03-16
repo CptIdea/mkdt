@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	decorRegex   = regexp.MustCompile(`[├│└──]`)
+	decorRegex   = regexp.MustCompile(`^[├└│\-─|` + "`" + `*.\+\[\]\{\}\(\)<> ]+`)
 	commentRegex = regexp.MustCompile(`\s*#.*`)
 )
 
@@ -17,10 +17,13 @@ func Normalize(input string) []string {
 	// first remove all decorative symbols and comments
 	for i := range lines {
 		// decorative symbols
-		lines[i] = decorRegex.ReplaceAllString(lines[i], " ")
+		lines[i] = cleanLine(lines[i])
 
 		// comments
 		lines[i] = commentRegex.ReplaceAllString(lines[i], "")
+
+		// remove all \r
+		lines[i] = strings.ReplaceAll(lines[i], "\r", "")
 	}
 
 	// find how many spaces go with a tab.
@@ -46,10 +49,32 @@ func Normalize(input string) []string {
 		}
 	}
 
+	// add slashes to directories
+	for i := range result {
+		if i+1 >= len(result) {
+			break
+		}
+		if strings.HasSuffix(result[i], "/") {
+			continue
+		}
+
+		if countLeadingTabs(result[i]) < countLeadingTabs(result[i+1]) {
+			result[i] += "/"
+		}
+	}
+
 	return result
 }
 
 // Function to count the number of leading spaces in a string.
 func countLeadingTabs(s string) int {
 	return len(s) - len(strings.TrimLeft(s, "\t"))
+}
+
+func cleanLine(line string) string {
+	// remove all decorative symbols
+	return decorRegex.ReplaceAllStringFunc(line, func(s string) string {
+		// replace all decorative symbols with spaces
+		return strings.Repeat(" ", len([]rune(s)))
+	})
 }

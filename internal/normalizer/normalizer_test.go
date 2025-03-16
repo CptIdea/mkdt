@@ -31,6 +31,11 @@ func TestNormalize(t *testing.T) {
 			expected: []string{"root/", "\tdir/", "\t\tfile.txt"},
 		},
 		{
+			name:     "|--",
+			input:    "root/\n|-- dir/\n│   |-- file.txt",
+			expected: []string{"root/", "\tdir/", "\t\tfile.txt"},
+		},
+		{
 			name:     "Comments",
 			input:    "dir/  # comment\nfile.txt",
 			expected: []string{"dir/", "file.txt"},
@@ -64,6 +69,11 @@ func TestNormalize(t *testing.T) {
 			name:     "Root with decorative ",
 			input:    "├── dir/\n│   └── file.txt",
 			expected: []string{"dir/", "\tfile.txt"},
+		},
+		{
+			name:     "Directory without slash",
+			input:    "root\n|-- file",
+			expected: []string{"root/", "\tfile"},
 		},
 	}
 
