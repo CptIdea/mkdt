@@ -8,6 +8,7 @@ import (
 var (
 	decorRegex   = regexp.MustCompile("^(?:[├└ │─|`*+\\]\\}\\)>-]+)")
 	commentRegex = regexp.MustCompile(`\s*#.*`)
+	emptyRegex   = regexp.MustCompile(`^[\s.]+$`)
 )
 
 func Normalize(input string) []string {
@@ -35,9 +36,11 @@ func Normalize(input string) []string {
 		if spacesTabCount > 0 {
 			newLine = strings.ReplaceAll(line, strings.Repeat(" ", spacesTabCount), "\t")
 		}
-		if newLine == "" || strings.ReplaceAll(newLine, "\t", "") == "" || strings.ReplaceAll(newLine, " ", "") == "" {
+		// remove empty or placeholder lines
+		if newLine == "" || emptyRegex.MatchString(newLine) {
 			continue
 		}
+
 		result = append(result, newLine)
 	}
 

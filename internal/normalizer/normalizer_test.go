@@ -80,6 +80,16 @@ func TestNormalize(t *testing.T) {
 			input:    "root\n\tfile\n\t.hidden",
 			expected: []string{"root/", "\tfile", "\t.hidden"},
 		},
+		{
+			name:     "Empty name file",
+			input:    "root\n\t \n\tfile",
+			expected: []string{"root/", "\tfile"},
+		},
+		{
+			name:     "Placeholder file",
+			input:    "root\n\tdir/\n\t\t...\n\tdir_with_comments/\n\t\t... # comment\n",
+			expected: []string{"root/", "\tdir/", "\tdir_with_comments/"},
+		},
 	}
 
 	for _, tt := range tests {
