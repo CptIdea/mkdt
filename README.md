@@ -18,8 +18,8 @@ go install github.com/CptIdea/mkdt@latest
 **Supports:**  
 ✅ Nested folders/files  
 ✅ Comments in templates  
-✅ "..."-like placeholders
-✅ Parsing decorators
+✅ "..."-like placeholders  
+✅ Parsing decorators  
 ✅ Dry-run mode (preview changes)  
 ✅ Clipboard input
 
